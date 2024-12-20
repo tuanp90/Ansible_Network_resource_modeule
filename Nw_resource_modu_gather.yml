@@ -1,0 +1,16 @@
+---
+- name: Network_resources_module_Garther_Vlan
+  hosts:
+    - SW2
+  gather_facts: no
+  connection: local
+  tasks:
+    #Using Network resource modeule to collect VLAN info
+    - name: Collect Vlan resource from {{ inventory_hostname }} {{ ansible_host }}
+      cisco.ios.ios_facts:
+        gather_network_resources:
+          - 'vlans' 
+    - name: Save resource, which have been collected as above to location {{ playbook_dir }}/host_vars/{{ inventory_hostname }}
+      copy:
+        content: "{{ ansible_network_resources | to_nice_yaml }}"
+        dest: "{{ playbook_dir }}/host_vars/{{ inventory_hostname }}" #playbook_dir mean location folder, that saved this playbook. You need create subfolder host_vars first.

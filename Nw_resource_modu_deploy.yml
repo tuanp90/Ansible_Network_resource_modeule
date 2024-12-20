@@ -1,0 +1,12 @@
+---
+- name: Network_resources_module_Garther_Vlan
+  hosts:
+    - SW2
+  gather_facts: no
+  connection: local
+  tasks:
+    - name: Make VLAN config changes by updating stored facts on the control node.
+      cisco.ios.ios_vlans:
+        config: "{{ vlans }}"
+        state: merged
+      tags: update_config
